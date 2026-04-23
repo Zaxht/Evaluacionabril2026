@@ -1,4 +1,15 @@
 :root {
+  /* =========================================================
+     VARIABLES GLOBALES
+     ---------------------------------------------------------
+     Aqui estan los valores mas utiles para retocar rapido:
+     - colores principales del sitio
+     - radios y sombras de tarjetas
+     - anchos maximos de la pagina
+     - medidas de la barra inferior con la van
+     ========================================================= */
+
+  /* Colores base */
   --bg: #2f3136;
   --surface: rgba(255, 255, 255, 0.82);
   --surface-strong: #ffffff;
@@ -8,14 +19,42 @@
   --orange: #ff9b06;
   --teal: #117f8a;
   --plum: #7b4b87;
-  --shadow: 0 24px 60px rgba(43, 18, 30, 0.14);
+
+  /* Sombras y bordes */
+  --card-border: 1px solid rgba(123, 75, 135, 0.14);
+  --shadow-soft: 0 24px 60px rgba(43, 18, 30, 0.14);
+  --shadow-card: 0 18px 40px rgba(55, 24, 39, 0.12);
+  --shadow-strong: 0 22px 40px rgba(36, 15, 22, 0.18);
+
+  /* Radios */
   --radius-lg: 32px;
   --radius-md: 22px;
   --radius-sm: 16px;
+
+  /* Layout general */
+  --page-max-width: 1120px;
+  --page-inline-space: 32px;
+  --page-inline-space-mobile: 20px;
+  --page-bottom-safe-space: 190px;
+  --section-gap: 26px;
+
+  /* Transiciones reutilizables */
+  --transition-fast: 160ms ease;
+  --transition-medium: 220ms ease;
+  --transition-slider: 560ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Barra inferior fija */
   --journey-height: 108px;
   --journey-bottom: 18px;
   --journey-van-width: 148px;
 }
+
+/* =========================================================
+   RESET BASICO
+   ---------------------------------------------------------
+   Mantiene el comportamiento base consistente y evita que
+   paddings/bordes alteren los calculos visuales.
+   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -35,6 +74,8 @@ body {
   background-color: var(--bg);
 }
 
+/* Fondo general del sitio.
+   Se mantiene un gris oscuro nativo y encima va la imagen con transparencia. */
 body::before {
   content: "";
   position: fixed;
@@ -60,13 +101,19 @@ a {
   text-decoration: none;
 }
 
+/* =========================================================
+   CONTENEDOR GENERAL
+   ---------------------------------------------------------
+   Este es el ancho util del sitio. El padding inferior extra
+   evita que la barra fija tape el final del contenido.
+   ========================================================= */
+
 .page-shell {
   position: relative;
   z-index: 1;
-  width: min(1120px, calc(100% - 32px));
+  width: min(var(--page-max-width), calc(100% - var(--page-inline-space)));
   margin: 0 auto;
-  /* Espacio inferior extra para que la barra fija no tape el final del sitio. */
-  padding: 8px 0 190px;
+  padding: 8px 0 var(--page-bottom-safe-space);
 }
 
 .skip-link {
@@ -84,6 +131,14 @@ a {
   color: #fff;
 }
 
+/* =========================================================
+   ENCABEZADO
+   ---------------------------------------------------------
+   El logo va libre a la izquierda y los paws del menu quedan
+   alineados a su derecha. Si quieres mover los paws arriba o
+   abajo, el ajuste principal esta en .site-nav.
+   ========================================================= */
+
 .site-header {
   display: flex;
   align-items: center;
@@ -97,6 +152,8 @@ a {
   flex-shrink: 0;
 }
 
+/* Logo de texto principal del header.
+   width y height controlan tamano y recorte visible. */
 .brand__nav-image {
   width: 460px;
   height: 220px;
@@ -105,6 +162,8 @@ a {
   filter: drop-shadow(0 12px 22px rgba(43, 18, 30, 0.18));
 }
 
+/* Contenedor del menu de paws.
+   transform sirve para microajustar la altura respecto del logo. */
 .site-nav {
   align-self: center;
   display: flex;
@@ -122,7 +181,7 @@ a {
   position: relative;
   display: block;
   width: 152px;
-  transition: transform 160ms ease, filter 160ms ease;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
 }
 
 .site-nav a img {
@@ -137,36 +196,28 @@ a {
   filter: drop-shadow(0 10px 18px rgba(43, 18, 30, 0.2));
 }
 
+/* =========================================================
+   ESTRUCTURA PRINCIPAL Y ESTILOS COMPARTIDOS
+   ---------------------------------------------------------
+   Aqui viven las reglas base de secciones, titulos y textos.
+   ========================================================= */
+
 main {
   display: grid;
-  gap: 26px;
+  gap: var(--section-gap);
   margin-top: 18px;
 }
 
+/* Todas las secciones grandes comparten el mismo lenguaje visual. */
 .hero,
 .services,
 .owner,
 .clients,
 .contact {
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(123, 75, 135, 0.14);
+  border: var(--card-border);
   background: var(--surface);
-  box-shadow: var(--shadow);
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 28px;
-  padding: 42px;
-  overflow: hidden;
-}
-
-.hero__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
+  box-shadow: var(--shadow-soft);
 }
 
 .eyebrow {
@@ -196,11 +247,45 @@ main {
 .service-card p,
 .owner__content p,
 .contact-card p,
-.site-footer p {
+.site-footer p,
+.client-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.65;
   font-size: 1rem;
+}
+
+/* Tarjetas blancas internas reutilizadas en varias zonas. */
+.logo-card,
+.hero-note,
+.service-card,
+.contact-card,
+.client-card {
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* =========================================================
+   HERO
+   ---------------------------------------------------------
+   Primer bloque que ve el cliente: texto principal a la
+   izquierda y apoyo visual a la derecha.
+   ========================================================= */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 28px;
+  padding: 42px;
+  overflow: hidden;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
 }
 
 .hero__badges {
@@ -217,50 +302,16 @@ main {
   font-weight: 700;
 }
 
+/* Botones de accion del hero.
+   Si luego quieres separarlos mas o menos, toca gap. */
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
 }
 
-/* Botones con imagen.
-   Aqui controlas el tamano real de las imagenes de CTA sin tocar los paws del menu. */
-.cta-image-button {
-  display: inline-block;
-  transition: transform 160ms ease, filter 160ms ease;
-}
-
-.cta-image-button img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.cta-image-button:hover,
-.cta-image-button:focus-visible {
-  transform: translateY(-3px) scale(1.02);
-  filter: drop-shadow(0 12px 20px rgba(43, 18, 30, 0.24));
-}
-
-/* Version que ocupa toda la linea dentro de la seccion de contacto. */
-.cta-image-button--full {
-  display: block;
-  width: min(430px, 100%);
-  height: 104px;
-  margin: 24px auto 0;
-  overflow: hidden;
-}
-
-/* Solo para el boton inferior de contacto:
-   lo centramos y recortamos el lienzo transparente del PNG para que
-   no se vea como si tuviera tanto padding alrededor. */
-.contact .cta-image-button--full img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
+/* Botones de texto clasicos.
+   Se siguen usando en el hero, y son independientes de los PNG. */
 .button {
   display: inline-flex;
   align-items: center;
@@ -270,7 +321,10 @@ main {
   border-radius: 999px;
   border: 2px solid transparent;
   font-weight: 800;
-  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
 }
 
 .button:hover,
@@ -279,7 +333,7 @@ main {
 }
 
 .button--solid {
-  background: linear-gradient(135deg, var(--orange), #ffb61a);
+  background: linear-gradient(135deg, var(--orange), #ff1aaf);
   color: #23141d;
   box-shadow: 0 16px 28px rgba(255, 155, 6, 0.28);
 }
@@ -289,6 +343,7 @@ main {
   background: rgba(255, 255, 255, 0.72);
 }
 
+/* Variante util cuando algun boton debe ocupar todo el ancho. */
 .button--full {
   width: 100%;
   margin-top: 24px;
@@ -300,15 +355,7 @@ main {
   gap: 18px;
 }
 
-.logo-card,
-.hero-note,
-.service-card,
-.contact-card {
-  border-radius: var(--radius-md);
-  background: var(--surface-strong);
-  box-shadow: 0 18px 40px rgba(55, 24, 39, 0.12);
-}
-
+/* Caja del logo/ilustracion principal del hero. */
 .logo-card {
   padding: 22px;
   background:
@@ -322,6 +369,7 @@ main {
   object-fit: contain;
 }
 
+/* Tarjeta con el slogan y apoyo de marca. */
 .hero-note {
   display: grid;
   gap: 8px;
@@ -347,6 +395,54 @@ main {
   line-height: 1.6;
 }
 
+/* =========================================================
+   BOTONES CON IMAGEN
+   ---------------------------------------------------------
+   Estos son para CTAs hechos con PNG.
+   Importante: NO afectan los paws del menu.
+   ========================================================= */
+
+.cta-image-button {
+  display: inline-block;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.cta-image-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cta-image-button:hover,
+.cta-image-button:focus-visible {
+  transform: translateY(-3px) scale(1.02);
+  filter: drop-shadow(0 12px 20px rgba(43, 18, 30, 0.24));
+}
+
+/* Esta variante se usa en el boton grande del bloque de contacto. */
+.cta-image-button--full {
+  display: block;
+  width: min(430px, 100%);
+  height: 104px;
+  margin: 24px auto 0;
+  overflow: hidden;
+}
+
+/* Recorta el lienzo transparente del PNG para que el boton se vea mas compacto. */
+.contact .cta-image-button--full img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* =========================================================
+   SECCIONES GENERALES
+   ---------------------------------------------------------
+   Padding y encabezados compartidos por servicios, clientes
+   y contacto.
+   ========================================================= */
+
 .services,
 .clients,
 .contact {
@@ -362,6 +458,23 @@ main {
 .section-heading h2 {
   font-size: clamp(2rem, 4vw, 3rem);
 }
+
+/* Version con texto a la izquierda y copy corto a la derecha. */
+.section-heading--split {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 18px;
+}
+
+.section-copy {
+  max-width: 360px;
+}
+
+/* =========================================================
+   SERVICIOS
+   ---------------------------------------------------------
+   Grid de cuatro tarjetas, reutilizado tambien por contacto.
+   ========================================================= */
 
 .services__grid,
 .contact__grid {
@@ -389,6 +502,12 @@ main {
   font-size: 1.2rem;
 }
 
+/* =========================================================
+   BLOQUE DEL DUEÑO / SHAGGY
+   ---------------------------------------------------------
+   Imagen a un lado y presentacion personal al otro.
+   ========================================================= */
+
 .owner {
   display: grid;
   grid-template-columns: 0.95fr 1.05fr;
@@ -401,6 +520,7 @@ main {
   position: relative;
 }
 
+/* Sombra difusa debajo de la foto para darle un poco de apoyo visual. */
 .owner__media::after {
   content: "";
   position: absolute;
@@ -419,7 +539,7 @@ main {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 28px;
-  box-shadow: 0 22px 40px rgba(36, 15, 22, 0.18);
+  box-shadow: var(--shadow-strong);
 }
 
 .owner__content {
@@ -443,6 +563,13 @@ main {
   line-height: 1.55;
 }
 
+/* =========================================================
+   CLIENTES
+   ---------------------------------------------------------
+   A la izquierda van dos tarjetas de texto.
+   A la derecha vive la galeria/slider en CSS puro.
+   ========================================================= */
+
 .clients__layout {
   display: grid;
   grid-template-columns: 0.72fr 1.08fr;
@@ -457,10 +584,7 @@ main {
 
 .client-card {
   padding: 24px;
-  border-radius: var(--radius-md);
   border: 1px solid rgba(123, 75, 135, 0.12);
-  background: var(--surface-strong);
-  box-shadow: 0 18px 40px rgba(55, 24, 39, 0.12);
 }
 
 .client-card h3 {
@@ -468,18 +592,8 @@ main {
   font-size: 1.2rem;
 }
 
-.client-card p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.65;
-}
-
 /* Slider de clientes sin JS.
-   Los radios ocultos controlan el desplazamiento del track.
-   Si quieres retocar el look, los puntos mas sensibles son:
-   - aspect-ratio del viewport
-   - padding del slide
-   - ancho del dot activo en el navigator */
+   Los radios ocultos controlan que slide se ve. */
 .clients__slider {
   display: grid;
   gap: 14px;
@@ -492,6 +606,8 @@ main {
   pointer-events: none;
 }
 
+/* Ventana visible del slider.
+   aspect-ratio es una de las perillas mas utiles si quieres cambiar proporciones. */
 .clients__viewport {
   position: relative;
   overflow: hidden;
@@ -506,11 +622,13 @@ main {
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
+/* Pista horizontal completa.
+   width: 400% porque hay 4 imagenes de igual ancho. */
 .clients__track {
   display: flex;
   width: 400%;
   height: 100%;
-  transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--transition-slider);
 }
 
 .client-slide {
@@ -528,6 +646,7 @@ main {
   box-shadow: 0 18px 34px rgba(20, 10, 24, 0.28);
 }
 
+/* Capa de texto sobre la imagen. */
 .clients__overlay {
   position: absolute;
   left: 22px;
@@ -559,8 +678,8 @@ main {
   line-height: 1.1;
 }
 
-/* Flechas laterales sobre la foto.
-   Quedan al centro vertical y cambian segun la slide activa. */
+/* Flechas laterales sobre la imagen.
+   Cada grupo aparece solo cuando su slide esta activo. */
 .clients__arrows {
   position: absolute;
   inset: 0;
@@ -603,8 +722,8 @@ main {
   border-color: rgba(255, 255, 255, 0.26);
 }
 
-/* Navegador estilo app / historias.
-   El activo se alarga para dar ese efecto tipo Instagram. */
+/* Navegador inferior tipo historias / Instagram.
+   El punto activo se alarga para que se lea mejor visualmente. */
 .clients__nav {
   justify-self: center;
   display: flex;
@@ -630,11 +749,13 @@ main {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.34);
   transition:
-    width 220ms ease,
-    background-color 220ms ease,
-    transform 220ms ease;
+    width var(--transition-medium),
+    background-color var(--transition-medium),
+    transform var(--transition-medium);
 }
 
+/* Estados del slider.
+   Aqui se decide que imagen mostrar, que flechas activar y que dot resaltar. */
 #cliente-1:checked ~ .clients__viewport .clients__track {
   transform: translateX(0);
 }
@@ -667,15 +788,11 @@ main {
   transform: scale(1.04);
 }
 
-.section-heading--split {
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: 18px;
-}
-
-.section-copy {
-  max-width: 360px;
-}
+/* =========================================================
+   CONTACTO
+   ---------------------------------------------------------
+   Cuadricula de informacion corta y CTA principal al final.
+   ========================================================= */
 
 .contact-card {
   display: grid;
@@ -691,6 +808,7 @@ main {
   text-transform: uppercase;
 }
 
+/* Footer disponible por si luego agregas una firma o copy final. */
 .site-footer {
   display: flex;
   justify-content: space-between;
@@ -708,7 +826,7 @@ main {
    BARRA INFERIOR FIJA
    ---------------------------------------------------------
    Esta barra queda fija abajo y la van avanza con el scroll.
-   Si luego quieres ajustar algo rapido, mira primero:
+   Ajustes rapidos mas comunes:
    1. --journey-height      -> alto total de la barra
    2. --journey-van-width   -> tamano de la van
    3. animation-range       -> cuando aparece el mensaje
@@ -720,7 +838,7 @@ main {
   left: 50%;
   bottom: var(--journey-bottom);
   z-index: 30;
-  width: min(1120px, calc(100% - 32px));
+  width: min(var(--page-max-width), calc(100% - var(--page-inline-space)));
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -730,8 +848,7 @@ main {
   height: var(--journey-height);
   border: 1px solid rgba(199, 164, 214, 0.18);
   border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.459) 0%, rgba(35, 31, 39, 0) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.459) 0%, rgba(35, 31, 39, 0) 100%);
   box-shadow:
     0 20px 34px rgba(6, 0, 10, 0.653),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -739,7 +856,7 @@ main {
 }
 
 /* Linea de carretera.
-   Si la quieres mas arriba o mas abajo, cambia el valor de bottom. */
+   Si la quieres mas arriba o mas abajo, cambia bottom. */
 .journey-bar__lane {
   position: absolute;
   left: 38px;
@@ -756,8 +873,7 @@ main {
     linear-gradient(180deg, rgba(20, 17, 25, 0.65), rgba(9, 8, 13, 0.85));
 }
 
-/* Meta visual al final de la barra.
-   Puedes cambiar right para acercarla o alejarla del borde. */
+/* Meta visual al final de la barra. */
 .journey-bar__goal {
   position: absolute;
   right: 20px;
@@ -775,8 +891,7 @@ main {
 }
 
 /* Van que avanza con el scroll.
-   Si la quieres mas grande, cambia --journey-van-width en :root.
-   Si la quieres mas arriba, cambia bottom. */
+   Si la quieres mas grande, cambia --journey-van-width en :root. */
 .journey-bar__van {
   position: absolute;
   left: 18px;
@@ -792,9 +907,9 @@ main {
   filter: drop-shadow(0 16px 20px rgba(11, 10, 14, 0.38));
 }
 
-/* Mensaje final.
-   Aparece al acercarse a la meta. Si quieres que salga antes o despues,
-   cambia animation-range dentro del bloque @supports. */
+/* Mensaje final en forma de boton de WhatsApp.
+   Aparece cerca de la meta y puede seguir clickeandose porque
+   esta regla reactiva pointer-events solo en el boton. */
 .journey-bar__message {
   position: absolute;
   right: 18px;
@@ -815,8 +930,6 @@ main {
   pointer-events: auto;
 }
 
-/* Este bloque es el boton real de WhatsApp.
-   Si luego quieres hacerlo mas "boton", toca border, background y padding. */
 .journey-bar__message:hover,
 .journey-bar__message:focus-visible {
   border-color: rgba(97, 214, 111, 0.55);
@@ -845,7 +958,8 @@ main {
 }
 
 /* Animaciones sin JS, ligadas al scroll del documento.
-   Si el navegador no soporta esto, simplemente veras la van quieta. */
+   Si el navegador no soporta esto, la barra se sigue viendo,
+   solo que la van queda quieta y el mensaje no anima. */
 @supports (animation-timeline: scroll()) {
   .journey-bar__van {
     animation: mover-van linear both;
@@ -866,7 +980,7 @@ main {
   }
 }
 
-/* Recorre toda la pista, dejando un poco de aire a la derecha para la meta. */
+/* Recorre toda la pista, dejando aire para que no choque con la meta. */
 @keyframes mover-van {
   from {
     left: 18px;
@@ -899,6 +1013,12 @@ main {
   }
 }
 
+/* =========================================================
+   RESPONSIVE
+   ---------------------------------------------------------
+   Primero tablet, luego movil.
+   ========================================================= */
+
 @media (max-width: 960px) {
   .hero,
   .owner,
@@ -919,7 +1039,7 @@ main {
 
 @media (max-width: 720px) {
   .page-shell {
-    width: min(100% - 20px, 1120px);
+    width: min(100% - var(--page-inline-space-mobile), var(--page-max-width));
     padding-top: 10px;
   }
 
@@ -996,7 +1116,7 @@ main {
   /* En movil bajamos un poco la barra para que no se sienta pesada. */
   .journey-bar {
     --journey-van-width: 110px;
-    width: calc(100% - 20px);
+    width: calc(100% - var(--page-inline-space-mobile));
     bottom: 10px;
   }
 
@@ -1032,5 +1152,4 @@ main {
     width: 34px;
     height: 34px;
   }
-}
 }
