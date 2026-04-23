@@ -8,6 +8,7 @@
       content="Spa del Misterio ofrece peluqueria y spa de mascotas con citas en direccion fisica, horarios flexibles y una atencion cercana."
     />
     <title>Spa del Misterio | Peluqueria y Spa de Mascotas</title>
+    <link rel="icon" type="image/png" href="imagenes/pawholder.png" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
@@ -150,35 +151,109 @@
         </section>
 
         <section class="clients" id="clientes">
-          <div class="section-heading">
-            <p class="eyebrow">Clientes</p>
-            <h2>Familias que confian en Spa del Misterio para consentir a sus mascotas.</h2>
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="eyebrow">Clientes</p>
+              <h2>Fotos reales de mascotas felices despues de su paso por Spa del Misterio.</h2>
+            </div>
+            <p class="section-copy">
+              Una galeria pensada para mostrar resultados reales, expresiones felices y
+              el tipo de cuidado cercano que queremos repetir en cada visita.
+            </p>
           </div>
 
-          <div class="clients__grid">
-            <article class="client-card">
-              <h3>Atencion cercana</h3>
-              <p>
-                Nos tomamos el tiempo de escuchar a cada familia para adaptar el
-                servicio a la personalidad y necesidad de su mascota.
-              </p>
-            </article>
+          <div class="clients__layout">
+            <div class="clients__copy">
+              <article class="client-card">
+                <h3>Confianza que se nota</h3>
+                <p>
+                  Cada mascota llega con su propia energia, asi que trabajamos con
+                  paciencia, adaptando el trato para que el resultado se vea bonito y
+                  tambien se sienta tranquilo.
+                </p>
+              </article>
 
-            <article class="client-card">
-              <h3>Resultados prolijos</h3>
-              <p>
-                Buscamos que cada visita termine con una mascota limpia, comoda y con
-                una imagen cuidada de principio a fin.
-              </p>
-            </article>
+              <article class="client-card">
+                <h3>Galeria estilo historias</h3>
+                <p>
+                  A la derecha dejamos una muestra visual con fotos reales. Usa los
+                  puntos para cambiar de imagen y recorrer la galeria como una mini
+                  experiencia de redes sociales.
+                </p>
+              </article>
+            </div>
 
-            <article class="client-card">
-              <h3>Horarios flexibles</h3>
-              <p>
-                Coordinamos las citas de la mejor forma posible porque sabemos que cada
-                cliente tiene tiempos distintos.
-              </p>
-            </article>
+            <div class="clients__slider">
+              <input checked class="clients__toggle" id="cliente-1" name="clientes-slider" type="radio" />
+              <input class="clients__toggle" id="cliente-2" name="clientes-slider" type="radio" />
+              <input class="clients__toggle" id="cliente-3" name="clientes-slider" type="radio" />
+              <input class="clients__toggle" id="cliente-4" name="clientes-slider" type="radio" />
+
+              <div class="clients__viewport">
+                <div class="clients__track">
+                  <figure class="client-slide">
+                    <img src="imagenes/perro1.png" alt="Cliente canino blanco posando feliz despues de su sesion" />
+                  </figure>
+                  <figure class="client-slide">
+                    <img src="imagenes/perro2.png" alt="Perro negro con corte prolijo y expresion tranquila" />
+                  </figure>
+                  <figure class="client-slide">
+                    <img src="imagenes/perro3.png" alt="Perro blanco sonriendo luego de su arreglo estetico" />
+                  </figure>
+                  <figure class="client-slide">
+                    <img src="imagenes/perro4.png" alt="Caniche pequeno recien arreglado junto a un sofa rojo" />
+                  </figure>
+                </div>
+
+                <div class="clients__overlay">
+                  <span class="clients__badge">Antes de irse a casa</span>
+                  <strong>Clientes felices, listos para lucirse</strong>
+                </div>
+
+                <div class="clients__arrows clients__arrows--1" aria-hidden="true">
+                  <label class="clients__arrow clients__arrow--prev" for="cliente-4">
+                    <span>&#8249;</span>
+                  </label>
+                  <label class="clients__arrow clients__arrow--next" for="cliente-2">
+                    <span>&#8250;</span>
+                  </label>
+                </div>
+
+                <div class="clients__arrows clients__arrows--2" aria-hidden="true">
+                  <label class="clients__arrow clients__arrow--prev" for="cliente-1">
+                    <span>&#8249;</span>
+                  </label>
+                  <label class="clients__arrow clients__arrow--next" for="cliente-3">
+                    <span>&#8250;</span>
+                  </label>
+                </div>
+
+                <div class="clients__arrows clients__arrows--3" aria-hidden="true">
+                  <label class="clients__arrow clients__arrow--prev" for="cliente-2">
+                    <span>&#8249;</span>
+                  </label>
+                  <label class="clients__arrow clients__arrow--next" for="cliente-4">
+                    <span>&#8250;</span>
+                  </label>
+                </div>
+
+                <div class="clients__arrows clients__arrows--4" aria-hidden="true">
+                  <label class="clients__arrow clients__arrow--prev" for="cliente-3">
+                    <span>&#8249;</span>
+                  </label>
+                  <label class="clients__arrow clients__arrow--next" for="cliente-1">
+                    <span>&#8250;</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="clients__nav" aria-label="Selector de galeria">
+                <label for="cliente-1"><span></span></label>
+                <label for="cliente-2"><span></span></label>
+                <label for="cliente-3"><span></span></label>
+                <label for="cliente-4"><span></span></label>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -216,8 +291,8 @@
             </article>
           </div>
 
-          <a class="button button--solid button--full" href="mailto:hola@spadelmisterio.cl">
-            Solicitar una cita
+          <a class="cta-image-button cta-image-button--agendar cta-image-button--full" href="mailto:hola@spadelmisterio.cl" aria-label="Solicitar una cita">
+            <img src="imagenes/agendarcita.png" alt="" />
           </a>
         </section>
       </main>

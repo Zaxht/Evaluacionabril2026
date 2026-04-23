@@ -223,6 +223,44 @@ main {
   gap: 14px;
 }
 
+/* Botones con imagen.
+   Aqui controlas el tamano real de las imagenes de CTA sin tocar los paws del menu. */
+.cta-image-button {
+  display: inline-block;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.cta-image-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cta-image-button:hover,
+.cta-image-button:focus-visible {
+  transform: translateY(-3px) scale(1.02);
+  filter: drop-shadow(0 12px 20px rgba(43, 18, 30, 0.24));
+}
+
+/* Version que ocupa toda la linea dentro de la seccion de contacto. */
+.cta-image-button--full {
+  display: block;
+  width: min(430px, 100%);
+  height: 104px;
+  margin: 24px auto 0;
+  overflow: hidden;
+}
+
+/* Solo para el boton inferior de contacto:
+   lo centramos y recortamos el lienzo transparente del PNG para que
+   no se vea como si tuviera tanto padding alrededor. */
+.contact .cta-image-button--full img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -332,12 +370,6 @@ main {
   gap: 18px;
 }
 
-.clients__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
 .service-card {
   display: grid;
   gap: 14px;
@@ -411,6 +443,18 @@ main {
   line-height: 1.55;
 }
 
+.clients__layout {
+  display: grid;
+  grid-template-columns: 0.72fr 1.08fr;
+  gap: 22px;
+  align-items: stretch;
+}
+
+.clients__copy {
+  display: grid;
+  gap: 18px;
+}
+
 .client-card {
   padding: 24px;
   border-radius: var(--radius-md);
@@ -428,6 +472,199 @@ main {
   margin: 0;
   color: var(--muted);
   line-height: 1.65;
+}
+
+/* Slider de clientes sin JS.
+   Los radios ocultos controlan el desplazamiento del track.
+   Si quieres retocar el look, los puntos mas sensibles son:
+   - aspect-ratio del viewport
+   - padding del slide
+   - ancho del dot activo en el navigator */
+.clients__slider {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.clients__toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.clients__viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  aspect-ratio: 5 / 4.7;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.2), transparent 35%),
+    linear-gradient(180deg, rgba(49, 30, 52, 0.84) 0%, rgba(30, 20, 34, 0.92) 100%);
+  box-shadow:
+    0 22px 42px rgba(17, 10, 21, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.clients__track {
+  display: flex;
+  width: 400%;
+  height: 100%;
+  transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.client-slide {
+  position: relative;
+  flex: 0 0 25%;
+  margin: 0;
+  padding: 14px;
+}
+
+.client-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 18px 34px rgba(20, 10, 24, 0.28);
+}
+
+.clients__overlay {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(28, 20, 32, 0.08), rgba(28, 20, 32, 0.74));
+  color: #fff7e8;
+  pointer-events: none;
+}
+
+.clients__badge {
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.clients__overlay strong {
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+/* Flechas laterales sobre la foto.
+   Quedan al centro vertical y cambian segun la slide activa. */
+.clients__arrows {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  pointer-events: none;
+}
+
+.clients__arrow {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(28, 20, 32, 0.72);
+  box-shadow: 0 14px 28px rgba(14, 10, 17, 0.24);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.clients__arrow span {
+  color: #fff7e8;
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.clients__arrow:hover,
+.clients__arrow:focus-visible {
+  transform: scale(1.08);
+  background: rgba(46, 31, 52, 0.86);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+/* Navegador estilo app / historias.
+   El activo se alarga para dar ese efecto tipo Instagram. */
+.clients__nav {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(26, 18, 30, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 24px rgba(16, 10, 18, 0.24);
+}
+
+.clients__nav label {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.clients__nav span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
+  transition:
+    width 220ms ease,
+    background-color 220ms ease,
+    transform 220ms ease;
+}
+
+#cliente-1:checked ~ .clients__viewport .clients__track {
+  transform: translateX(0);
+}
+
+#cliente-2:checked ~ .clients__viewport .clients__track {
+  transform: translateX(-25%);
+}
+
+#cliente-3:checked ~ .clients__viewport .clients__track {
+  transform: translateX(-50%);
+}
+
+#cliente-4:checked ~ .clients__viewport .clients__track {
+  transform: translateX(-75%);
+}
+
+#cliente-1:checked ~ .clients__viewport .clients__arrows--1,
+#cliente-2:checked ~ .clients__viewport .clients__arrows--2,
+#cliente-3:checked ~ .clients__viewport .clients__arrows--3,
+#cliente-4:checked ~ .clients__viewport .clients__arrows--4 {
+  display: flex;
+}
+
+#cliente-1:checked ~ .clients__nav label:nth-child(1) span,
+#cliente-2:checked ~ .clients__nav label:nth-child(2) span,
+#cliente-3:checked ~ .clients__nav label:nth-child(3) span,
+#cliente-4:checked ~ .clients__nav label:nth-child(4) span {
+  width: 28px;
+  background: linear-gradient(90deg, #ffb61a, #fff0ce);
+  transform: scale(1.04);
 }
 
 .section-heading--split {
@@ -669,7 +906,7 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .clients__grid,
+  .clients__layout,
   .services__grid,
   .contact__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -715,7 +952,7 @@ main {
     padding: 24px;
   }
 
-  .clients__grid,
+  .clients__layout,
   .services__grid,
   .contact__grid {
     grid-template-columns: 1fr;
@@ -728,6 +965,32 @@ main {
 
   .site-nav a {
     width: 128px;
+  }
+
+  .cta-image-button--full {
+    width: min(100%, 320px);
+  }
+
+  .clients__viewport {
+    aspect-ratio: 4 / 5;
+  }
+
+  .clients__nav {
+    gap: 8px;
+    padding: 9px 12px;
+  }
+
+  .clients__arrows {
+    padding: 0 12px;
+  }
+
+  .clients__arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .clients__arrow span {
+    font-size: 1.7rem;
   }
 
   /* En movil bajamos un poco la barra para que no se sienta pesada. */
